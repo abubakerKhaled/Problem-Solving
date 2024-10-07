@@ -1,23 +1,25 @@
+from copy import deepcopy
+
+
+# Definition for singly-linked list.
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
 
-    def insert_at_end(head, data):
-        # Insert a new node with given data at the end of the linked list
-        new_node = ListNode(data)
-        if head is None:
-            return new_node
-
+    @staticmethod
+    def build_linked_list(values):
+        if not values:
+            return None
+        head = ListNode(values[0])
         current = head
-        while current.next:
+        for value in values[1:]:
+            current.next = ListNode(value)
             current = current.next
-
-        current.next = new_node
         return head
+    
 
-
-from copy import deepcopy
+    
 class Solution:
     def isPalindrome(self, head: ListNode) -> bool:
         # if 1 element return True
@@ -35,10 +37,10 @@ class Solution:
                 node.next = prev
                 prev = node
                 node = next
-            while prev and head:
-                if prev.val != head.val:
+            while node and head:
+                if node.val != head.val:
                     return False
-                prev = prev.next
+                node = node.next
                 head = head.next
             
             return True
@@ -52,10 +54,12 @@ def printll(ll):
         temp = temp.next
 
 if __name__ == "__main__":
-    head = [1,2,2,1]
-    ln = ListNode(val=1)
-    for i in head[1:]:
-        ln.insert_at_end(i)
+    # The provided lists
+    list1 = [1,2,3,4]
+
+    # Build the linked lists
+    l1 = ListNode.build_linked_list(list1)
+
     sol = Solution()
-    res = sol.isPalindrome(ln)
-    print(res)
+    ll = sol.isPalindrome(l1)
+    printll(ll)
